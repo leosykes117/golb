@@ -9,6 +9,7 @@ services:
             - "3000:3000"
         environment:
             GOAPI_DB_HOST: mariadb
+            GOAPI_DB_PORT: 3306
             GOAPI_DB_USER: golb_dev
             GOAPI_DB_PASSWORD: 100PerApi
             GOAPI_DB_NAME: golb
@@ -16,7 +17,6 @@ services:
             - mariadb
         links:
             - "mariadb"
-
     mariadb:
         image: mariadb:10.5.9
         container_name: dbgocms

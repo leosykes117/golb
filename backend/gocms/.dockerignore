@@ -1,7 +1,13 @@
+# Ignora todo
 **
 
+# Permite los archivos y directorios
 !cmd
 !internal
 !pkg
+!bin
 !*.go
 !go.*
+
+# Ignora todos los archivos que haya dentro de la carpeta bin
+**bin/*
