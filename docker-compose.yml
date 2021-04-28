@@ -1,0 +1,32 @@
+version: "3.8"
+
+services:
+    goapi:
+        build: ./backend/gocms
+        image: api-go-cms
+        container_name: gocms
+        ports:
+            - "3000:3000"
+        environment:
+            GOAPI_DB_HOST: mariadb
+            GOAPI_DB_USER: golb_dev
+            GOAPI_DB_PASSWORD: 100PerApi
+            GOAPI_DB_NAME: golb
+        depends_on:
+            - mariadb
+        links:
+            - "mariadb"
+
+    mariadb:
+        image: mariadb:10.5.9
+        container_name: dbgocms
+        environment:
+            MYSQL_ROOT_PASSWORD: 100PerMariadb
+            MYSQL_DATABASE: golb
+            MYSQL_USER: golb_dev
+            MYSQL_PASSWORD: 100PerApi
+        ports:
+            - "3307:3306"
+        volumes:
+            - ./backend/db/mydatadir:/var/lib/mysql
+            - ./backend/db/initdb.d/:/docker-entrypoint-initdb.d/
