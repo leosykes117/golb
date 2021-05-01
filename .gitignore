@@ -239,6 +239,7 @@ $RECYCLE.BIN/
 # Ignores del proyecto
 backend/db/mydatadir
 backend/gocms/bin/*
+backend/gocms/*.env
 docker-compose.override.yml
 
 # Conserva todo los archivos .gitkeep

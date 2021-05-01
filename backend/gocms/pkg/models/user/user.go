@@ -33,3 +33,15 @@ type Repository interface {
 	//GetByID(uint) (*Model, error)
 	//Delete(uint) error
 }
+
+type Service struct {
+	repo Repository
+}
+
+func NewService(repo Repository) *Service {
+	return &Service{repo}
+}
+
+func (s *Service) Create(m *Model) error {
+	return s.repo.Create(m)
+}

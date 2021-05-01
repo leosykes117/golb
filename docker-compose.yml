@@ -8,6 +8,8 @@ services:
         ports:
             - "3000:3000"
         environment:
+            FROM_DOCKER: "true"
+            GO_API_PORT: 3000
             GOAPI_DB_HOST: mariadb
             GOAPI_DB_PORT: 3306
             GOAPI_DB_USER: golb_dev

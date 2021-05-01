@@ -2,22 +2,27 @@ package main
 
 import (
 	"log"
+	"os"
 
-	"github.com/leosykes117/golb/backend/gocms/pkg/models/user"
-	"github.com/leosykes117/golb/backend/gocms/pkg/storage"
+	"github.com/leosykes117/golb/backend/gocms/internal/env"
+	"github.com/leosykes117/golb/backend/gocms/pkg/api"
 )
 
 func main() {
-	dbDriver := storage.MariaDB
-	storage.New(dbDriver)
-	repo, err := storage.DAOUser(dbDriver)
+	_, ok := os.LookupEnv("FROM_DOCKER")
+
+	if !ok {
+		env.LoadVars()
+	}
+
+	env.ReadVars()
+
+	serverPort, err := env.GetEnvs(env.Port)
 	if err != nil {
-		log.Fatalf("DAOUser: %v", err)
+		log.Fatal("Ocurrio un error al obtener la variable Port")
 	}
 
-	m := user.New("leo.aremtz98@gmail.com", "maleva123", "Leonardo Antonio", "Arellano Martínez", "M", "5514670431")
+	log.Printf("GO_API_PORT %s", serverPort)
 
-	if err := repo.Create(m); err != nil {
-		log.Fatalf("ERROR MariaDB on user.Create: %v", err)
-	}
+	api.Start(serverPort.(string))
 }
