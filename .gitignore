@@ -237,7 +237,8 @@ $RECYCLE.BIN/
 
 
 # Ignores del proyecto
-backend/db/mydatadir
+backend/db/data/*
+backend/db/logs/*
 backend/gocms/bin/*
 backend/gocms/*.env
 docker-compose.override.yml
