@@ -5,30 +5,92 @@ services:
         build: ./backend/gocms
         image: api-go-cms
         container_name: gocms
+        restart: always
         ports:
             - "3000:3000"
         environment:
             FROM_DOCKER: "true"
             GO_API_PORT: 3000
-            GOAPI_DB_HOST: mariadb
+            GOAPI_DB_HOST: dbgolb
             GOAPI_DB_PORT: 3306
             GOAPI_DB_USER: golb_dev
             GOAPI_DB_PASSWORD: 100PerApi
             GOAPI_DB_NAME: golb
+        networks:
+            backend:
+                aliases:
+                    - api
         depends_on:
-            - mariadb
-        links:
-            - "mariadb"
-    mariadb:
+            - dbprimary1
+            - dbprimary2
+
+    dbprimary1:
         image: mariadb:10.5.9
-        container_name: dbgocms
+        container_name: dbprimary1
         environment:
             MYSQL_ROOT_PASSWORD: 100PerMariadb
             MYSQL_DATABASE: golb
             MYSQL_USER: golb_dev
             MYSQL_PASSWORD: 100PerApi
         ports:
-            - "3307:3306"
+            - "33306:3306"
         volumes:
-            - ./backend/db/mydatadir:/var/lib/mysql
-            - ./backend/db/initdb.d/:/docker-entrypoint-initdb.d/
+            - ./backend/db/data/primary1:/var/lib/mysql
+            - ./backend/db/config/primary1:/etc/mysql/conf.d
+        networks:
+            replication_network:
+                ipv4_address: 10.208.0.10
+                aliases:
+                    - primary1
+            backend:
+                aliases:
+                    - dbgolb
+
+    dbprimary2:
+        image: mariadb:10.5.9
+        container_name: dbprimary2
+        environment:
+            MYSQL_ROOT_PASSWORD: 100PerMariadb
+            MYSQL_DATABASE: golb
+            MYSQL_USER: golb_dev
+            MYSQL_PASSWORD: 100PerApi
+        ports:
+            - "33307:3306"
+        volumes:
+            - ./backend/db/data/primary2:/var/lib/mysql
+            - ./backend/db/config/primary2:/etc/mysql/conf.d
+        networks:
+            replication_network:
+                ipv4_address: 10.208.0.20
+                aliases:
+                    - primary2
+
+    replication:
+        image: ubuntu:18.04
+        container_name: replication
+        volumes:
+            - ./backend/db/scripts/:/opt/repl/scripts
+        environment:
+            PRIMARY_1_HOSTNAME: dbprimary1
+            PRIMARY_1_HOST_IP: 10.208.0.10
+            PRIMARY_1_ROOT_USER: root
+            PRIMARY_1_ROOT_PASSWORD: 100PerMariadb
+            PRIMARY_2_HOSTNAME: dbprimary2
+            PRIMARY_2_HOST_IP: 10.208.0.20
+            PRIMARY_2_ROOT_USER: root
+            PRIMARY_2_ROOT_PASSWORD: 100PerMariadb
+            REPL_USER: replicator
+            REPL_PASSWORD: repl1234or
+        networks:
+            - replication_network
+        depends_on:
+            - dbprimary1
+            - dbprimary2
+        command: /bin/bash -x /opt/repl/scripts/config_replication.sh
+
+networks:
+    replication_network:
+        ipam:
+            config:
+                - subnet: 10.208.0.0/24
+    backend:
