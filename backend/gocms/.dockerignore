@@ -6,6 +6,7 @@
 !internal
 !pkg
 !bin
+!certificates
 !*.go
 !go.*
 

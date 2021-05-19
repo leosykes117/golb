@@ -1,3 +1,5 @@
+# syntax=docker/dockerfile:1
+
 FROM golang:1.16 AS builder
 WORKDIR /src
 # statically build the binary
@@ -13,6 +15,7 @@ RUN go build -o /out/golb cmd/api/main.go
 
 # Second Stage
 FROM alpine:3.13.5
+COPY ./certificates/ /etc/golb/certificates/
 RUN apk add --no-cache ca-certificates apache2-utils
 WORKDIR /root/
 COPY --from=builder /out/golb .

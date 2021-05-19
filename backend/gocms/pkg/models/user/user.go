@@ -1,5 +1,11 @@
 package user
 
+import (
+	"fmt"
+
+	"github.com/leosykes117/golb/backend/gocms/pkg/models"
+)
+
 // Model es la estructura que representa un usuario.
 type Model struct {
 	ID           uint   `json:"ID"`
@@ -26,9 +32,14 @@ func New(email, password, name, surname, gender, phone string) *Model {
 	}
 }
 
+func (u *Model) FullName() string {
+	return fmt.Sprintf("%s %s", u.Name, u.Surname)
+}
+
 // Repository es la interfaz que implementa los metodos para la base de datos
 type Repository interface {
 	Create(*Model) error
+	LogIn(string, string) (*Model, error)
 	//Update(*Model) error
 	//GetByID(uint) (*Model, error)
 	//Delete(uint) error
@@ -44,4 +55,8 @@ func NewService(repo Repository) *Service {
 
 func (s *Service) Create(m *Model) error {
 	return s.repo.Create(m)
+}
+
+func (s *Service) LogIn(lg *models.Login) (*Model, error) {
+	return s.repo.LogIn(lg.GetEmail(), lg.GetPassword())
 }

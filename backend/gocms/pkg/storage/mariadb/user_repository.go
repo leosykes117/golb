@@ -12,6 +12,8 @@ const (
 	mariaDBCreateUser = `INSERT INTO users (email, password_hash, name, surname, gender, phone)
 						VALUES(?, ?, ?, ?, ?, ?) 
 						RETURNING user_id`
+	mariaDBGetAllUsers               = `SELECT user_id, email, name, surname, gender, phone FROM users`
+	mariaDBGetUserByEmailAndPassword = mariaDBGetAllUsers + ` WHERE email = ? AND password_hash = ?`
 )
 
 // userRepository es la estrucutra encargada de trabajar la tabla product en postgres
@@ -46,4 +48,14 @@ func (r *userRepository) Create(m *user.Model) error {
 
 	log.Printf("Se creo el usuario correctamente: %+v", m)
 	return nil
+}
+
+func (r *userRepository) LogIn(e, pass string) (*user.Model, error) {
+	stmt, err := r.db.Prepare(mariaDBGetUserByEmailAndPassword)
+	if err != nil {
+		return nil, err
+	}
+	defer stmt.Close()
+
+	return typesconv.ScanRowUser(stmt.QueryRow(e, pass))
 }

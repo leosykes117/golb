@@ -246,3 +246,6 @@ docker-compose.override.yml
 # Conserva todo los archivos .gitkeep
 !.gitkeep
 
+
+*.rsa
+*.pub

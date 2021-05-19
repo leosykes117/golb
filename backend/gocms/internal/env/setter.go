@@ -11,21 +11,25 @@ import (
 )
 
 type Specification struct {
-	Port       string `envconfig:"GO_API_PORT"`
-	DBHost     string `envconfig:"GOAPI_DB_HOST"`
-	DBPort     string `envconfig:"GOAPI_DB_PORT"`
-	DBUser     string `envconfig:"GOAPI_DB_USER"`
-	DBPassword string `envconfig:"GOAPI_DB_PASSWORD"`
-	DBName     string `envconfig:"GOAPI_DB_NAME"`
+	Port           string `envconfig:"GO_API_PORT"`
+	DBHost         string `envconfig:"GO_API_DB_HOST"`
+	DBPort         string `envconfig:"GO_API_DB_PORT"`
+	DBUser         string `envconfig:"GO_API_DB_USER"`
+	DBPassword     string `envconfig:"GO_API_DB_PASSWORD"`
+	DBName         string `envconfig:"GO_API_DB_NAME"`
+	PublicKeyPath  string `envconfig:"GO_API_PUB_KEY"`
+	PrivateKeyPath string `envconfig:"GO_API_PRIV_KEY"`
 }
 
 const (
-	Port       = "PORT"
-	DBHost     = "DB_HOST"
-	DBPort     = "DB_PORT"
-	DBUser     = "DB_USER"
-	DBPassword = "DB_PASSWORD"
-	DBName     = "DB_NAME"
+	Port           = "PORT"
+	DBHost         = "DB_HOST"
+	DBPort         = "DB_PORT"
+	DBUser         = "DB_USER"
+	DBPassword     = "DB_PASSWORD"
+	DBName         = "DB_NAME"
+	PublicKeyPath  = "PUB_KEY"
+	PrivateKeyPath = "PRIV_KEY"
 )
 
 var (
@@ -75,6 +79,10 @@ func GetEnvs(envar string) (interface{}, error) {
 		return envars.DBPassword, nil
 	case DBName:
 		return envars.DBName, nil
+	case PrivateKeyPath:
+		return envars.PrivateKeyPath, nil
+	case PublicKeyPath:
+		return envars.PublicKeyPath, nil
 	default:
 		return "", fmt.Errorf("No existe la variable %s", envar)
 	}
