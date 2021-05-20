@@ -61,7 +61,9 @@ func (s *Services) loginHandler(w http.ResponseWriter, r *http.Request) {
 
 	user, err := s.userService.LogIn(data)
 	if err != nil {
-		log.Fatalf("ERROR MySQL on user.LogIn %v", err)
+		log.Printf("ERROR MySQL on user.LogIn %v", err)
+		ErrUserNotFound.Send(w)
+		return
 	}
 
 	lg := models.NewLogIn(user.Email, user.PasswordHash)
