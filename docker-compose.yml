@@ -90,6 +90,15 @@ services:
             - dbprimary2
         command: /bin/bash -x /opt/repl/scripts/config_replication.sh
 
+    blog-ui:
+        build:
+            context: ./frontend
+            dockerfile: Dockerfile
+        image: ui-vue-cms:1.0.0-production
+        container_name: vuecms-ui-production
+        ports:
+            - "80:80"
+
 networks:
     replication_network:
         ipam:
