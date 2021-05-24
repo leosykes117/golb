@@ -5,6 +5,7 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/gorilla/handlers"
 	"github.com/gorilla/mux"
 )
 
@@ -13,10 +14,13 @@ type server struct {
 }
 
 func newServer(port string, router *mux.Router) *server {
+	headers := handlers.AllowedHeaders([]string{"X-Requested-With", "Content-Type", "Authorization"})
+	methods := handlers.AllowedMethods([]string{"GET", "POST", "PUT", "HEAD", "OPTIONS"})
+	origins := handlers.AllowedOrigins([]string{"*"})
 	return &server{
 		&http.Server{
 			Addr:         ":" + port,
-			Handler:      router,
+			Handler:      handlers.CORS(headers, methods, origins)(router),
 			ReadTimeout:  5 * time.Second,
 			WriteTimeout: 10 * time.Second,
 			IdleTimeout:  15 * time.Second,
