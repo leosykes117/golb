@@ -9,8 +9,8 @@ import (
 func routes(services *Services) *mux.Router {
 	r := mux.NewRouter()
 
-	r.HandleFunc("/api/users", services.createUserHandler).Methods(http.MethodPost)
-	r.HandleFunc("/api/users/auth", services.loginHandler).Methods(http.MethodPost)
+	r.HandleFunc("/api/users", services.createUserHandler).Methods(http.MethodPost, http.MethodOptions)
+	r.HandleFunc("/api/users/auth", services.loginHandler).Methods(http.MethodPost, http.MethodOptions)
 	//r.HandleFunc("/api/gophers", s.FetchGophers).Methods(http.MethodPost)
 	//r.HandleFunc("/api/gophers/{ID:[a-zA-Z0-9_]+}", s.FetchGopher).Methods(http.MethodGet)
 	//r.HandleFunc("/api/gophers/{ID:[a-zA-Z0-9_]+}", s.ModifyGopher).Methods(http.MethodPut)

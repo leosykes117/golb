@@ -1,5 +1,5 @@
 <template>
-    <div class="signin">
+	<div class="signin">
 		<div class="container-form">
 			<div class="form-vertical-align">
 				<h1>Inicia Sesión</h1>
@@ -9,18 +9,15 @@
 	</div>
 </template>
 
-
 <script>
 import LogIn from '../components/LogIn'
 
 export default {
-    name: 'SignIn',
+	name: 'SignIn',
 	components: {
 		LogIn,
 	},
 }
 </script>
 
-<style>
-
-</style>
+<style></style>

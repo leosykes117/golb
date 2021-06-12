@@ -1,5 +1,5 @@
 <template>
-    <div class="login">
+	<div class="login">
 		<el-form :model="signInForm" ref="signInForm" status-icon :rules="rules" class="demo-ruleForm">
 			<el-form-item prop="email">
 				<el-input placeholder="Email" v-model="signInForm.email" autofocus clearable autocomplete="off"></el-input>
@@ -16,9 +16,7 @@
 			</el-form-item>
 
 			<el-form-item>
-				<el-button type="primary" round @click="submitForm('signInForm')">
-					Iniciar Sesión
-				</el-button>
+				<el-button type="primary" round @click="submitForm('signInForm')"> Iniciar Sesión </el-button>
 			</el-form-item>
 		</el-form>
 	</div>
@@ -26,18 +24,19 @@
 
 <script>
 export default {
-    name: 'LogIn',
-    data() {
+	name: 'LogIn',
+	data() {
 		var validateEmail = (rule, value, callback) => {
-            const re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-            if (typeof value !== 'string' || value.length < 1) {
-                callback(new Error('Por favor ingresa un email'))
-            } else if (!re.test(value)) {
-                callback(new Error('El email no es válido'))
-            } else {
-                callback()
-            }
-        }
+			const re =
+				/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+			if (typeof value !== 'string' || value.length < 1) {
+				callback(new Error('Por favor ingresa un email'))
+			} else if (!re.test(value)) {
+				callback(new Error('El email no es válido'))
+			} else {
+				callback()
+			}
+		}
 		return {
 			signInForm: {
 				email: '',
@@ -53,46 +52,47 @@ export default {
 			},
 		}
 	},
-    methods: {
-        submitForm(formName) {
+	methods: {
+		submitForm(formName) {
 			this.$refs[formName].validate((valid) => {
 				if (valid) {
 					this.signIn(formName)
 				} else {
-					console.log('error submit!!')
+					console.log('Error al enviar el formulario')
 					return false
 				}
 			})
 		},
-        signIn() {
+		async signIn() {
 			this.sigInData.email = this.signInForm.email
-			this.sigInData.passwordHash = this.signInForm.password
-			console.log(this.sigInData)
+			this.sigInData.password = this.signInForm.password
 			const loading = this.$loading({
 				lock: true,
 				text: 'Enviando...',
 				spinner: 'el-icon-loading',
 				background: 'rgba(0, 0, 0, 0.7)',
 			})
-			this.axios
-				.post(`users/auth`, this.sigInData)
-				.then((response) => {
-					console.log(response)
+			const headers = {
+				'Content-Type': 'application/json',
+			}
+			try {
+				let response = await this.axios.post(`users/auth`, this.sigInData, { headers })
+				loading.close()
+				console.log(response)
+			} catch (err) {
+				loading.close()
+				console.error('Ocurrio un error al iniciar sesión')
+				let data = err.response.data
+				console.error({ data })
+				this.$message({
+					message: data.message,
+					type: 'error',
 				})
-				.catch((error) => {
-					console.error('ERROR ->', error.response)
-					loading.close()
-					this.$message({
-						message: 'Ocurrio un error al iniciar sesión',
-						type: 'error',
-					})
-					this.signInForm.password = ''
-				})
+				this.signInForm.password = ''
+			}
 		},
-    }
+	},
 }
 </script>
 
-<style>
-
-</style>
+<style></style>

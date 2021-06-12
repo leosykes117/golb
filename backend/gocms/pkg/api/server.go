@@ -14,9 +14,18 @@ type server struct {
 }
 
 func newServer(port string, router *mux.Router) *server {
-	headers := handlers.AllowedHeaders([]string{"X-Requested-With", "Content-Type", "Authorization"})
+	headers := handlers.AllowedHeaders([]string{
+		"X-Requested-With",
+		"Content-Type",
+		"Authorization",
+		"Access-Control-Request-Method",
+		"Access-Control-Request-Headers",
+		"Access-Control-Allow-Headers",
+		"Access-Control-Allow-Origin",
+	})
 	methods := handlers.AllowedMethods([]string{"GET", "POST", "PUT", "HEAD", "OPTIONS"})
 	origins := handlers.AllowedOrigins([]string{"*"})
+
 	return &server{
 		&http.Server{
 			Addr:         ":" + port,
