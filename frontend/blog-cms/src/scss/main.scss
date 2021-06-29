@@ -1,0 +1,31 @@
+@import "../../node_modules/normalize.css/normalize";
+
+/* html, body {
+	display: grid;
+	height: 100%;
+	place-items: center;
+} */
+
+#app {
+	font-family: 'Avenir', Helvetica, Arial, sans-serif;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+.content-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.debug-border {
+    border: 1px solid #000!important;
+}
+
+.switch-element {
+	margin-right: 30px;
+}
+
+.switch-element[tabindex="-1"] {
+	margin-right: 0px;
+}

@@ -13,7 +13,7 @@ func SetAuthToken(l *models.Login, ID uint) (string, error) {
 		ID:    ID,
 		Email: l.GetEmail(),
 		StandardClaims: jwt.StandardClaims{
-			ExpiresAt: time.Now().Add(time.Hour * 1).Unix(),
+			ExpiresAt: time.Now().Add(time.Second * 5).Unix(),
 			Issuer:    "Golb",
 		},
 	}

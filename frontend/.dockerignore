@@ -1,0 +1,14 @@
+# Ignora node_modules
+node_modules
+.git
+.gitignore
+
+
+# Editor directories and files
+.idea
+.vscode
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?

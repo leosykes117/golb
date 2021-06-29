@@ -236,7 +236,7 @@ $RECYCLE.BIN/
 # End of https://www.toptal.com/developers/gitignore/api/vscode,linux,macos,windows,go,node,vuejs
 
 
-# Ignores del proyecto
+### Ignores del proyecto ###
 backend/db/data/*
 backend/db/logs/*
 backend/gocms/bin/*
@@ -246,6 +246,9 @@ docker-compose.override.yml
 # Conserva todo los archivos .gitkeep
 !.gitkeep
 
-
+# Ignora los certificados
 *.rsa
 *.pub
+
+# Ignora los docker-compose.override.yml
+*.override.yml
