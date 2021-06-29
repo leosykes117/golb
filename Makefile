@@ -22,7 +22,14 @@ logs:
 stop:
 	docker-compose stop ${SVCS}
 
+.PHONY: format
+format:
+	docker-compose exec blog-ui npm run lint --format
+
+.PHONY: npm-install
+npm-install:
+	docker-compose exec blog-ui npm install $(ARGS)
+
 .PHONY: clean-db
 clean-db:
-	yes y | rm -vrf ./backend/db/data/primary1/*
-	yes y | rm -vrf ./backend/db/data/primary2/*
+	rm -ifrv ./backend/db/data/mysql/*

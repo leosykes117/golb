@@ -50,11 +50,6 @@ services:
         build:
             context: ./frontend
             dockerfile: Dockerfile
-            target: 'production-stage'
-        image: ui-vue-cms:1.0.0-production
-        container_name: vuecms-ui-production
-        ports:
-            - "80:80"
         networks:
             frontend:
                 aliases:

@@ -1,25 +1,27 @@
 <template>
-	<div class="login">
-		<el-form :model="signInForm" ref="signInForm" status-icon :rules="rules" class="demo-ruleForm">
-			<el-form-item prop="email">
-				<el-input placeholder="Email" v-model="signInForm.email" autofocus clearable autocomplete="off"></el-input>
-			</el-form-item>
+	<el-form :model="signInForm" ref="signInForm" status-icon :rules="rules">
+		<el-form-item prop="email">
+			<el-input placeholder="Email o nombre de usuario" v-model="signInForm.email" autofocus clearable autocomplete="off">
+				<template slot="prepend">
+					<font-awesome-icon icon="user" />
+				</template>
+			</el-input>
+		</el-form-item>
 
-			<el-form-item prop="password">
-				<el-input
-					placeholder="Password"
-					v-model="signInForm.password"
-					show-password
-					clearable
-					autocomplete="off"
-				></el-input>
-			</el-form-item>
+		<el-form-item prop="password">
+			<el-input placeholder="Password" v-model="signInForm.password" show-password clearable autocomplete="off">
+				<template slot="prepend">
+					<font-awesome-icon icon="key" />
+				</template>
+			</el-input>
+		</el-form-item>
 
-			<el-form-item>
-				<el-button type="primary" round @click="submitForm('signInForm')"> Iniciar Sesión </el-button>
-			</el-form-item>
-		</el-form>
-	</div>
+		<el-link type="primary" class="" style="padding-top: 5px">Restablecer password</el-link>
+
+		<el-form-item class="content-center" style="padding: 12px 20px">
+			<el-button type="primary" round @click="submitForm('signInForm')"> Iniciar Sesión </el-button>
+		</el-form-item>
+	</el-form>
 </template>
 
 <script>
@@ -95,4 +97,4 @@ export default {
 }
 </script>
 
-<style></style>
+<style lang="scss" scoped></style>
