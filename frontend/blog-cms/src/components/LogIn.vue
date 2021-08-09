@@ -52,6 +52,7 @@ export default {
 				email: '',
 				passwordHash: '',
 			},
+			errorMessage: undefined
 		}
 	},
 	methods: {
@@ -67,30 +68,28 @@ export default {
 		},
 		async signIn() {
 			this.sigInData.email = this.signInForm.email
-			this.sigInData.password = this.signInForm.password
+			this.sigInData.passwordHash = this.signInForm.password
 			const loading = this.$loading({
 				lock: true,
 				text: 'Enviando...',
 				spinner: 'el-icon-loading',
 				background: 'rgba(0, 0, 0, 0.7)',
 			})
-			const headers = {
-				'Content-Type': 'application/json',
-			}
 			try {
-				let response = await this.axios.post(`users/auth`, this.sigInData, { headers })
-				loading.close()
-				console.log(response)
+				await this.$store.dispatch('auth/signIn', this.sigInData)
+				console.log('SUCCESS!')
 			} catch (err) {
-				loading.close()
-				console.error('Ocurrio un error al iniciar sesión')
-				let data = err.response.data
-				console.error({ data })
-				this.$message({
-					message: data.message,
+				console.error('FAIL!')
+				console.error(err)
+				this.errorMessage = {
+					message: err.message,
 					type: 'error',
-				})
-				this.signInForm.password = ''
+				}
+			}
+			loading.close()
+			if (this.errorMessage) {
+				this.$message(this.errorMessage)
+				this.errorMessage = undefined
 			}
 		},
 	},

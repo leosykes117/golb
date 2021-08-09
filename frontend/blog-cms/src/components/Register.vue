@@ -9,7 +9,12 @@
 		</el-form-item>
 
 		<el-form-item prop="email">
-			<el-input placeholder="Email o nombre de usuario" v-model="signUpForm.email" clearable autocomplete="off"></el-input>
+			<el-input
+				placeholder="Correo electrónico o teléfono"
+				v-model="signUpForm.email"
+				clearable
+				autocomplete="off"
+			></el-input>
 		</el-form-item>
 
 		<el-form-item prop="gender" label="Genero" class="content-center">
