@@ -7,7 +7,7 @@ import (
 
 var (
 	ErrBadRequest   = &UserError{StatusCode: http.StatusBadRequest, Type: "api_error", Message: "Cannot process current request"}
-	ErrUserNotFound = &UserError{StatusCode: http.StatusBadRequest, Type: "user_not_found", Message: "Cannot find the given username"}
+	ErrUserNotFound = &UserError{StatusCode: http.StatusBadRequest, Type: "user_not_found", Message: "Correo electrónico o contraseña incorrecta"}
 	ErrInvalidJSON  = &UserError{StatusCode: http.StatusBadRequest, Type: "invalid_json", Message: "Invalid or malformed JSON"}
 	ErrCreateToken  = &UserError{StatusCode: http.StatusInternalServerError, Type: "token_marshal_error", Message: "Cannot create authorization"}
 )

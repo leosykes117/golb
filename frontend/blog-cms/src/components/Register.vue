@@ -63,6 +63,42 @@ export default {
 			},
 		}
 	},
+	methods: {
+		submitForm(formName) {
+			this.$refs[formName].validate((valid) => {
+				if (valid) {
+					this.signUp(formName)
+				} else {
+					console.log('Error al enviar el formulario')
+					return false
+				}
+			})
+		},
+		async signUp() {
+			const loading = this.$loading({
+				lock: true,
+				text: 'Enviando...',
+				spinner: 'el-icon-loading',
+				background: 'rgba(0, 0, 0, 0.7)',
+			})
+			try {
+				await this.$store.dispatch('auth/signUp', this.signUpForm)
+				console.log('SUCCESS!')
+			} catch (err) {
+				console.error('FAIL!')
+				console.error(err)
+				this.errorMessage = {
+					message: err.message,
+					type: 'error',
+				}
+			}
+			loading.close()
+			if (this.errorMessage) {
+				this.$message(this.errorMessage)
+				this.errorMessage = undefined
+			}
+		},
+	},
 }
 </script>
 

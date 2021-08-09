@@ -74,7 +74,7 @@ func (s *Services) loginHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	log.Printf("Usuario %v creado con exito", user)
+	log.Printf("Usuario %v autenticado con éxito", user)
 
 	responseData := make(map[string]string)
 	responseData["name"] = user.FullName()

@@ -25,34 +25,25 @@
 </template>
 
 <script>
+import AuthServices from '../modules/auth/services'
+
 export default {
 	name: 'LogIn',
 	data() {
-		var validateEmail = (rule, value, callback) => {
-			const re =
-				/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-			if (typeof value !== 'string' || value.length < 1) {
-				callback(new Error('Por favor ingresa un email'))
-			} else if (!re.test(value)) {
-				callback(new Error('El email no es válido'))
-			} else {
-				callback()
-			}
-		}
 		return {
 			signInForm: {
 				email: '',
 				password: '',
 			},
 			rules: {
-				email: [{ validator: validateEmail, trigger: 'blur' }],
+				email: [{ validator: AuthServices.validateEmail, trigger: 'blur' }],
 				password: [{ required: true, message: 'Por favor ingresa el password', trigger: 'blur' }],
 			},
 			sigInData: {
 				email: '',
 				passwordHash: '',
 			},
-			errorMessage: undefined
+			errorMessage: undefined,
 		}
 	},
 	methods: {
