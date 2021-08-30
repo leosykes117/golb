@@ -8,15 +8,14 @@ import (
 	"github.com/leosykes117/golb/backend/gocms/internal/auth"
 )
 
-type handler func(http.ResponseWriter, *http.Request)
-
 type middlewareResponse map[string]interface{}
 
 var (
 	ErrInvalidToken = middlewareResponse{"statusCode": http.StatusForbidden, "type": "toke_invalid", "message": "El token es invalido"}
 )
 
-func Authentication(next handler) handler {
+// Authentication es el middleware para poder validar el toquen del usuario
+func Authentication(next http.HandlerFunc) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		token := r.Header.Get("Authorization")
 		_, err := auth.ValidateToken(token)

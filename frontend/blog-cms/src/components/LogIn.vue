@@ -69,6 +69,7 @@ export default {
 			try {
 				await this.$store.dispatch('auth/signIn', this.sigInData)
 				console.log('SUCCESS!')
+				this.$router.push('/')
 			} catch (err) {
 				console.error('FAIL!')
 				console.error(err)

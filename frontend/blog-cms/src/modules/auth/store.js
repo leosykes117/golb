@@ -1,4 +1,5 @@
 import AuthServices from './services'
+import { httpClient } from '@/plugins/axios'
 
 export const SET_TOKEN = 'auth/SET_TOKEN'
 export const SET_NAME = 'auth/SET_NAME'
@@ -7,7 +8,7 @@ export const SET_GENDER = 'auth/SET_GENDER'
 export const AuthStore = {
 	namespaced: true,
 	state: {
-		token: '',
+		token: localStorage.getItem('user-token') || '',
 		name: '',
 		gender: false,
 	},
@@ -17,6 +18,9 @@ export const AuthStore = {
 				AuthServices.login(payload)
 					.then((response) => {
 						console.log({ response })
+						const token = response.data.result.token
+						localStorage.setItem('user-token', token)
+						httpClient.defaults.headers.common['Authorization'] = `Bearer ${token}`
 						dispatch('populateAuthData', response.data.result)
 						resolve()
 					})
@@ -36,6 +40,9 @@ export const AuthStore = {
 				AuthServices.signUp(payload)
 					.then((response) => {
 						console.log({ response })
+						const token = response.data.result.token
+						localStorage.setItem('user-token', token)
+						httpClient.defaults.headers.common['Authorization'] = `Bearer ${token}`
 						dispatch('populateAuthData', response.data.result)
 						resolve()
 					})
@@ -66,5 +73,8 @@ export const AuthStore = {
 		[SET_GENDER](state, payload) {
 			state.gender = payload
 		},
+	},
+	getters: {
+		isLoggedIn: (state) => !!state.token,
 	},
 }

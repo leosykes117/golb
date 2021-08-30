@@ -18,6 +18,7 @@ services:
             GO_API_DB_NAME: golb
             GO_API_PUB_KEY: /etc/golb/certificates/app.rsa.pub
             GO_API_PRIV_KEY: /etc/golb/certificates/app.rsa
+            GO_API_TOKEN_EXPIRATION: 24h
         networks:
             frontend:
                 aliases:

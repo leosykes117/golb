@@ -3,14 +3,19 @@
 import Vue from 'vue'
 import axios from 'axios'
 
-axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*'
-axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest'
-
 let config = {
 	baseURL: process.env.VUE_APP_APIURL || 'http://localhost:3000/api/',
 }
+const token = localStorage.getItem('token')
 
 export const httpClient = axios.create(config)
+
+httpClient.defaults.headers.common['Access-Control-Allow-Origin'] = '*'
+httpClient.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest'
+
+if (token) {
+	httpClient.defaults.headers.common['Authorization'] = `Bearer ${token}`
+}
 
 Plugin.install = function (Vue) {
 	Vue.axios = httpClient

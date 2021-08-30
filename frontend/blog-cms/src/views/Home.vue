@@ -1,9 +1,21 @@
 <template>
 	<div class="home">
-		<router-link to="/signin">Iniciar sesión</router-link>
+		<Dashboard v-if="isLoggedIn" />
+		<router-link to="/signin" v-else>Iniciar Sesión</router-link>
 	</div>
 </template>
 
 <script>
-export default {}
+import Dashboard from '@/components/Dashboard.vue'
+import { mapGetters } from 'vuex'
+
+export default {
+	name: 'Home',
+	components: {
+		Dashboard,
+	},
+	computed: {
+		...mapGetters('auth', ['isLoggedIn']),
+	},
+}
 </script>
