@@ -5,6 +5,9 @@ import store from './store'
 import './plugins/element.js'
 import './plugins/axios.js'
 
+import "bootstrap";
+import 'bootstrap/dist/css/bootstrap.min.css'
+
 import './plugins/font-awesome'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
