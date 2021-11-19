@@ -4,7 +4,7 @@ import Vue from 'vue'
 import axios from 'axios'
 
 let config = {
-	baseURL: process.env.VUE_APP_APIURL || 'http://localhost:3000/api/',
+	baseURL: process.env.VUE_APP_APIURL
 }
 const token = localStorage.getItem('token')
 

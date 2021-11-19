@@ -2,23 +2,29 @@ version: "3.8"
 
 services:
     goapi:
-        build: ./backend/gocms
+        build:
+            context: ./backend/gocms/
+            dockerfile: Dockerfile
+            target: init
         image: api-go-cms
         container_name: gocms
         restart: always
         ports:
             - "3000:3000"
+        env_file:
+            - backend/gocms/.env
+            - backend/gocms/.test.env
         environment:
             FROM_DOCKER: "true"
-            GO_API_PORT: 3000
-            GO_API_DB_HOST: golbdb
-            GO_API_DB_PORT: 3306
-            GO_API_DB_USER: golb_dev
-            GO_API_DB_PASSWORD: 100PerApi
-            GO_API_DB_NAME: golb
-            GO_API_PUB_KEY: /etc/golb/certificates/app.rsa.pub
-            GO_API_PRIV_KEY: /etc/golb/certificates/app.rsa
-            GO_API_TOKEN_EXPIRATION: 24h
+#            GO_API_PORT: ${GO_API_PORT}
+#            GO_API_DB_HOST: ${GO_API_DB_HOST}
+#            GO_API_DB_PORT: ${GO_API_DB_PORT}
+#            GO_API_DB_USER: ${GO_API_DB_USER}
+#            GO_API_DB_PASSWORD: ${GO_API_DB_PASSWORD}
+#            GO_API_DB_NAME: ${GO_API_DB_NAME}
+#            GO_API_PUB_KEY: ${GO_API_PUB_KEY}
+#            GO_API_PRIV_KEY: ${GO_API_PRIV_KEY}
+#            GO_API_TOKEN_EXPIRATION: ${GO_API_TOKEN_EXPIRATION}
         networks:
             frontend:
                 aliases:
@@ -32,11 +38,13 @@ services:
     db:
         image: mariadb:10.5.9
         container_name: golb-db
-        environment:
-            MYSQL_ROOT_PASSWORD: 100PerMariadb
-            MYSQL_DATABASE: golb
-            MYSQL_USER: golb_dev
-            MYSQL_PASSWORD: 100PerApi
+        env_file:
+            - backend/db/.mysql.env
+#        environment:
+#            MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+#            MYSQL_DATABASE: ${MYSQL_DATABASE}
+#            MYSQL_USER: ${MYSQL_USER}
+#            MYSQL_PASSWORD: ${MYSQL_PASSWORD}
         ports:
             - "33306:3306"
         volumes:

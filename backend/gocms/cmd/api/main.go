@@ -10,7 +10,8 @@ import (
 )
 
 func main() {
-	_, ok := os.LookupEnv("FROM_DOCKER")
+	fromDocker, ok := os.LookupEnv("FROM_DOCKER")
+	log.Printf("fromDocker: %s\nok: %t\n\n", fromDocker, ok)
 
 	if !ok {
 		env.LoadVars()
