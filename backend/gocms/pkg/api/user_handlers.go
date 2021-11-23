@@ -18,15 +18,17 @@ func (s *Services) createUserHandler(w http.ResponseWriter, r *http.Request) {
 	log.Println("Creando un nuevo usuario")
 
 	if err := json.NewDecoder(body).Decode(user); err != nil {
-		log.Printf("ERROR createUserHandler. No se pudo leer el json: %v", err)
+		log.Printf("ERROR createUserHandler. No se pudo leer el json: %v\n", err)
 		ErrInvalidJSON.Send(w)
 		return
 	}
 
-	log.Printf("Datos del usuario: %v", user)
+	log.Printf("Datos del usuario: %v\n", user)
 
 	if err := s.userService.Create(user); err != nil {
-		log.Fatalf("ERROR MySQL on user.Create: %v", err)
+		log.Printf("ERROR MySQL on user.Create: %v\n", err)
+		ErrBadRequest.Send(w)
+		return
 	}
 
 	lg := models.NewLogIn(user.Email, user.PasswordHash)
@@ -34,6 +36,7 @@ func (s *Services) createUserHandler(w http.ResponseWriter, r *http.Request) {
 
 	if err != nil {
 		ErrCreateToken.Send(w)
+		return
 	}
 
 	log.Printf("Usuario %v creado con exito", user)
@@ -82,4 +85,22 @@ func (s *Services) loginHandler(w http.ResponseWriter, r *http.Request) {
 	responseData["token"] = tokenStr
 
 	Success(responseData, http.StatusCreated).Send(w)
+}
+
+func (s *Services) testAuthorizationHandler(w http.ResponseWriter, r *http.Request) {
+	body := r.Body
+	defer body.Close()
+
+	reqBody := make(map[string]string)
+	if err := json.NewDecoder(body).Decode(&reqBody); err != nil {
+		log.Printf("ERROR testAuthorizationHandler. No se pudo obtener el cuerpo de la petición: %v\n", err)
+		ErrInvalidJSON.Send(w)
+		return
+	}
+
+	log.Printf("Datos de la peticón: %v\n", reqBody)
+
+	data := make(map[string]string)
+	data["message"] = "Autenticado para realizar peticiones."
+	Success(data, http.StatusOK).Send(w)
 }

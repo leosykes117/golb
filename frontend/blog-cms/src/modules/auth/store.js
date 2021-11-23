@@ -1,9 +1,10 @@
 import AuthServices from './services'
-import { httpClient } from '@/plugins/axios'
+import { golbClient } from '@/plugins/axios/axiosClients'
 
 export const SET_TOKEN = 'auth/SET_TOKEN'
 export const SET_NAME = 'auth/SET_NAME'
 export const SET_GENDER = 'auth/SET_GENDER'
+export const SET_LOG_OUT = 'auth/SET_LOG_OUT'
 
 export const AuthStore = {
 	namespaced: true,
@@ -20,7 +21,7 @@ export const AuthStore = {
 						console.log({ response })
 						const token = response.data.result.token
 						localStorage.setItem('user-token', token)
-						httpClient.defaults.headers.common['Authorization'] = `Bearer ${token}`
+						golbClient.defaults.headers.common['Authorization'] = `Bearer ${token}`
 						dispatch('populateAuthData', response.data.result)
 						resolve()
 					})
@@ -42,7 +43,7 @@ export const AuthStore = {
 						console.log({ response })
 						const token = response.data.result.token
 						localStorage.setItem('user-token', token)
-						httpClient.defaults.headers.common['Authorization'] = `Bearer ${token}`
+						golbClient.defaults.headers.common['Authorization'] = `Bearer ${token}`
 						dispatch('populateAuthData', response.data.result)
 						resolve()
 					})
@@ -62,6 +63,14 @@ export const AuthStore = {
 			commit(SET_NAME, payload.name)
 			commit(SET_GENDER, payload.gender)
 		},
+		logOut({ commit }) {
+			return new Promise((resolve) => {
+				commit(SET_LOG_OUT)
+				localStorage.removeItem('user-token')
+				delete golbClient.defaults.headers.common['Authorization']
+				resolve()
+			})
+		},
 	},
 	mutations: {
 		[SET_TOKEN](state, payload) {
@@ -72,6 +81,11 @@ export const AuthStore = {
 		},
 		[SET_GENDER](state, payload) {
 			state.gender = payload
+		},
+		[SET_LOG_OUT](state) {
+			state.token = ''
+			state.name = ''
+			state.gender = false
 		},
 	},
 	getters: {

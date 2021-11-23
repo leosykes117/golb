@@ -1,8 +1,6 @@
 <template>
-	<div class="home">
-		<Dashboard v-if="isLoggedIn" />
-		<router-link to="/signin" v-else>Iniciar Sesión</router-link>
-	</div>
+	<Dashboard v-if="isLoggedIn" />
+	<router-link to="/signin" v-else>Iniciar Sesión</router-link>
 </template>
 
 <script>

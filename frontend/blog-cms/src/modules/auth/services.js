@@ -1,4 +1,4 @@
-import { httpClient } from '@/plugins/axios'
+import { golbClient } from '@/plugins/axios/axiosClients'
 
 const auth = {
 	login({ email, passwordHash }) {
@@ -9,7 +9,7 @@ const auth = {
 			email,
 			password: passwordHash,
 		}
-		return httpClient.post('users/auth', payload, { headers })
+		return golbClient.post('users/auth', payload, { headers })
 	},
 	signUp({ name, surname, email, phone, gender, password }) {
 		const headers = {
@@ -23,7 +23,7 @@ const auth = {
 			gender,
 			password,
 		}
-		return httpClient.post('users', payload, { headers })
+		return golbClient.post('users', payload, { headers })
 	},
 	validateEmail(rule, value, callback) {
 		const re =
