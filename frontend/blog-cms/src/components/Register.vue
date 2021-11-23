@@ -9,7 +9,12 @@
 		</el-form-item>
 
 		<el-form-item prop="email">
-			<el-input placeholder="Email o nombre de usuario" v-model="signUpForm.email" clearable autocomplete="off"></el-input>
+			<el-input
+				placeholder="Correo electrónico o teléfono"
+				v-model="signUpForm.email"
+				clearable
+				autocomplete="off"
+			></el-input>
 		</el-form-item>
 
 		<el-form-item prop="gender" label="Genero" class="content-center">
@@ -57,6 +62,43 @@ export default {
 				password: '',
 			},
 		}
+	},
+	methods: {
+		submitForm(formName) {
+			this.$refs[formName].validate((valid) => {
+				if (valid) {
+					this.signUp(formName)
+				} else {
+					console.log('Error al enviar el formulario')
+					return false
+				}
+			})
+		},
+		async signUp() {
+			const loading = this.$loading({
+				lock: true,
+				text: 'Enviando...',
+				spinner: 'el-icon-loading',
+				background: 'rgba(0, 0, 0, 0.7)',
+			})
+			try {
+				await this.$store.dispatch('auth/signUp', this.signUpForm)
+				console.log('SUCCESS!')
+				this.$router.push('/')
+			} catch (err) {
+				console.error('FAIL!')
+				console.error(err)
+				this.errorMessage = {
+					message: err.message,
+					type: 'error',
+				}
+			}
+			loading.close()
+			if (this.errorMessage) {
+				this.$message(this.errorMessage)
+				this.errorMessage = undefined
+			}
+		},
 	},
 }
 </script>

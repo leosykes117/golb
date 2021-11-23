@@ -240,7 +240,6 @@ $RECYCLE.BIN/
 backend/db/data/*
 backend/db/logs/*
 backend/gocms/bin/*
-backend/gocms/*.env
 docker-compose.override.yml
 
 # Conserva todo los archivos .gitkeep
@@ -252,3 +251,6 @@ docker-compose.override.yml
 
 # Ignora los docker-compose.override.yml
 *.override.yml
+
+# Ignora todos los archivos .env
+**.env
