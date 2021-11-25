@@ -17,3 +17,9 @@ variable "node_count" {
     type = number
     default = 1
 }
+
+variable "k8s_app_namespace" {
+    description = "Nombre del namespace donde se crearan los recursos dentro del cluster"
+    type = string
+    default = "golb-test"
+}

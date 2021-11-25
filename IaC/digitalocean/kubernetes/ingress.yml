@@ -2,12 +2,13 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: golb-app
+  namespace: golb-test
   annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /
-    kubernetes.io/ingress.class: nginx
 spec:
+  ingressClassName: nginx
   rules:
-  - http:
+  - host: ui.golb.io
+    http:
       paths:
       - path: /
         pathType: Prefix

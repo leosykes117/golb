@@ -25,5 +25,6 @@ helm:
 
 # make helm CMD="--kubeconfig ./kubernetes/kubeconfig.yaml repo add ingress-nginx https://kubernetes.github.io/ingress-nginx"
 # make helm CMD="--kubeconfig ./kubernetes/kubeconfig.yaml repo update"
-# make helm CMD="--kubeconfig ./kubernetes/kubeconfig.yaml install nginx-ingress ingress-nginx/ingress-nginx --set controller.publishService.enabled=true"
-# make helm CMD="--kubeconfig ./kubernetes/kubeconfig.yaml uninstall nginx-ingress"
+# make helm CMD="--kubeconfig ./kubernetes/kubeconfig.yaml install ingress-nginx ingress-nginx/ingress-nginx --namespace ingress-nginx --create-namespace --set controller.publishService.enabled=true"
+# make helm CMD="--kubeconfig ./kubernetes/kubeconfig.yaml uninstall ingress-nginx"
+# make helm CMD="--kubeconfig ./kubernetes/kubeconfig.yaml upgrade --install ingress-nginx ingress-nginx --repo https://kubernetes.github.io/ingress-nginx --namespace ingress-nginx --create-namespace"

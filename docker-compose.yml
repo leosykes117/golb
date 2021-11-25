@@ -16,15 +16,6 @@ services:
             - backend/gocms/.test.env
         environment:
             FROM_DOCKER: "true"
-#            GO_API_PORT: ${GO_API_PORT}
-#            GO_API_DB_HOST: ${GO_API_DB_HOST}
-#            GO_API_DB_PORT: ${GO_API_DB_PORT}
-#            GO_API_DB_USER: ${GO_API_DB_USER}
-#            GO_API_DB_PASSWORD: ${GO_API_DB_PASSWORD}
-#            GO_API_DB_NAME: ${GO_API_DB_NAME}
-#            GO_API_PUB_KEY: ${GO_API_PUB_KEY}
-#            GO_API_PRIV_KEY: ${GO_API_PRIV_KEY}
-#            GO_API_TOKEN_EXPIRATION: ${GO_API_TOKEN_EXPIRATION}
         networks:
             frontend:
                 aliases:
@@ -40,11 +31,6 @@ services:
         container_name: golb-db
         env_file:
             - backend/db/.mysql.env
-#        environment:
-#            MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-#            MYSQL_DATABASE: ${MYSQL_DATABASE}
-#            MYSQL_USER: ${MYSQL_USER}
-#            MYSQL_PASSWORD: ${MYSQL_PASSWORD}
         ports:
             - "33306:3306"
         volumes:

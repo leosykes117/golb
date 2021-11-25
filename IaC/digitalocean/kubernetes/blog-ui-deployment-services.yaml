@@ -2,20 +2,21 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: blog-ui
+  namespace: golb-test
 spec:
   replicas: 3
   selector:
     matchLabels:
-      role: vuecms-ui-prod
+      role: blog-ui
   template:
     metadata:
       labels:
-        role: vuecms-ui-prod
+        role: blog-ui
     spec:
       imagePullSecrets:
       - name: docker-cfg
       containers:
-      - name: vuecms-ui-prod
+      - name: blog-ui
         image: registry.digitalocean.com/golb-repository/ui-vue-cms:0.0.1
         ports:
         - containerPort: 80
@@ -25,9 +26,10 @@ apiVersion: v1
 kind: Service
 metadata:
   name: blog-ui
+  namespace: golb-test
 spec:
   ports:
   - port: 80
     targetPort: 80
   selector:
-    role: vuecms-ui-prod
+    role: blog-ui

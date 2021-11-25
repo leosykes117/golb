@@ -22,3 +22,7 @@ output "do_registry" {
         }
     )
 }
+
+output "k8s_app_namespace" {
+    value = var.k8s_app_namespace
+}
