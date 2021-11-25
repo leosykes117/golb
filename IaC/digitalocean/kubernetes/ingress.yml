@@ -1,0 +1,19 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: golb-app
+  namespace: golb-test
+  annotations:
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: ui.golb.io
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: blog-ui
+            port:
+              number: 80
