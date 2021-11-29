@@ -1,6 +1,7 @@
 all: terraform
 
 CMD=
+ARG=
 VARS=
 ENVFILE="./.env"
 
@@ -23,6 +24,12 @@ helm:
     -v ~/.cache/helm:/root/.cache/helm \
     alpine/helm ${CMD}
 
+kubeseal:
+	docker run -it --rm \
+	-w /apps \
+	-v $(PWD):/apps \
+    kubeseal:0.16.0 < ${ARG} ${CMD}
+
 # make helm CMD="--kubeconfig ./kubernetes/kubeconfig.yaml repo add ingress-nginx https://kubernetes.github.io/ingress-nginx"
 # make helm CMD="--kubeconfig ./kubernetes/kubeconfig.yaml repo update"
 # make helm CMD="--kubeconfig ./kubernetes/kubeconfig.yaml install ingress-nginx ingress-nginx/ingress-nginx --namespace ingress-nginx --create-namespace --set controller.publishService.enabled=true"
@@ -34,3 +41,6 @@ helm:
 # make helm CMD="--kubeconfig ./kubernetes/kubeconfig.yaml repo add stable https://charts.helm.sh/stable"
 # make helm CMD="--kubeconfig ./kubernetes/kubeconfig.yaml repo update"
 # make helm CMD="--kubeconfig ./kubernetes/kubeconfig.yaml install kube-prometheus --namespace monitoring --create-namespace -f custom-values.yaml prometheus-community/kube-prometheus-stack"
+
+### KUBESEALED ###
+# kubectl --kubeconfig ./kubernetes/kubeconfig.yaml apply -f https://github.com/bitnami-labs/sealed-secrets/releases/download/v0.16.0/controller.yaml

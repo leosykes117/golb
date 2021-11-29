@@ -1,0 +1,63 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: golbdb
+  namespace: golb-test
+spec:
+  selector:
+    matchLabels:
+      app: golbdb
+  serviceName: golbdb
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: golbdb
+    spec:
+      containers:
+      - name: golbdb
+        image: mariadb:10.5.9
+        env:
+        - name: MYSQL_ROOT_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: golbdb-credential
+              key: rootpassword
+        - name: MYSQL_DATABASE
+          valueFrom:
+            secretKeyRef:
+              name: golbdb-credential
+              key: databasename
+        - name: MYSQL_USER
+          valueFrom:
+            secretKeyRef:
+              name: golbdb-credential
+              key: username
+        - name: MYSQL_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: golbdb-credential
+              key: userpassword
+        ports:
+        - name: mariadb
+          containerPort: 3306
+        volumeMounts:
+        - name: golbdata
+          mountPath: /var/lib/mysql
+        - name: docker-entrypoint-initdb
+          mountPath: /docker-entrypoint-initdb.d
+          readOnly: true
+      volumes:
+      - name: docker-entrypoint-initdb
+        configMap:
+          name: mariadb-initdb-config
+  volumeClaimTemplates:
+  - metadata:
+      name: golbdata
+    spec:
+      accessModes:
+      - ReadWriteOnce
+      storageClassName: do-block-storage
+      resources:
+        requests:
+          storage: 5Gi

@@ -1,0 +1,66 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: golb-api
+  namespace: golb-test
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      role: golb-api
+  template:
+    metadata:
+      labels:
+        role: golb-api
+    spec:
+      imagePullSecrets:
+      - name: docker-cfg
+      containers:
+      - name: golb-api
+        image: registry.digitalocean.com/golb-repository/api-go-cms:0.0.1
+        env:
+        - name: FROM_DOCKER
+          value: "true"
+        - name: GO_API_PORT
+          value: "3000"
+        - name: GO_API_DB_HOST
+          value: golbdb
+        - name: GO_API_DB_PORT
+          value: "3306"
+        - name: GO_API_DB_USER
+          valueFrom:
+            secretKeyRef:
+              name: golbdb-credential
+              key: username
+        - name: GO_API_DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: golbdb-credential
+              key: userpassword
+        - name: GO_API_DB_NAME
+          valueFrom:
+            secretKeyRef:
+              name: golbdb-credential
+              key: databasename
+        - name: GO_API_PUB_KEY
+          value: /etc/golb/certificates/app.rsa.pub
+        - name: GO_API_PRIV_KEY
+          value: /etc/golb/certificates/app.rsa
+        - name: GO_API_TOKEN_EXPIRATION
+          value: 10s
+        ports:
+        - containerPort: 3000
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: golb-api
+  namespace: golb-test
+spec:
+  selector:
+    role: golb-api
+  ports:
+  - name: db
+    port: 3000
+    targetPort: 3000

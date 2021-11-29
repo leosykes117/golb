@@ -18,6 +18,7 @@ spec:
       containers:
       - name: blog-ui
         image: registry.digitalocean.com/golb-repository/ui-vue-cms:0.0.1
+        imagePullPolicy: Always
         ports:
         - containerPort: 80
 
