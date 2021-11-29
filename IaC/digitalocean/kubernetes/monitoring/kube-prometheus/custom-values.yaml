@@ -21,7 +21,34 @@ grafana:
 #    size: 5Gi
 
 # Define persistent storage for Alertmanager (PVC)
-# alertmanager:
+alertmanager:
+  config:
+    global:
+      resolve_timeout: 5m
+      slack_api_url: 'https://hooks.slack.com/services/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'
+    route:
+      group_by: ['alertname', 'cluster', 'service']
+      group_wait: 30s
+      group_interval: 5m
+      repeat_interval: 3h
+      # A default receiver
+      receiver: slack
+      routes:
+      - match:
+          severity: critical
+        receiver: slack
+      - match: 
+          severity: warning
+        receiver: slack
+      - match:
+          alertname: Watchdog
+        receiver: slack
+    receivers:
+    - name: slack
+      slack_configs:
+        - send_resolved: true
+          channel: '#golb_alerts'
+          text: " \nsummary: {{ .CommonAnnotations.summary }}\ndescription: {{ .CommonAnnotations.description }}"
 #   alertmanagerSpec:
 #     storage:
 #       volumeClaimTemplate:
