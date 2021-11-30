@@ -41,7 +41,7 @@ kubeseal:
 # make helm CMD="--kubeconfig ./kubernetes/kubeconfig.yaml repo add stable https://charts.helm.sh/stable"
 # make helm CMD="--kubeconfig ./kubernetes/kubeconfig.yaml repo update"
 # make helm CMD="--kubeconfig ./kubernetes/kubeconfig.yaml install kube-prometheus --namespace monitoring --create-namespace -f kubernetes/monitoring/kube-prometheus/custom-values.yaml prometheus-community/kube-prometheus-stack"
-# make helm CMD="--kubeconfig ./kubernetes/kubeconfig.yaml install mysql-exporter --namespace monitoring -f kubernetes/monitoring/kube-prometheus/mysqld-values.yaml prometheus-community/prometheus-mysql-exporter"
+# make helm CMD="--kubeconfig ./kubernetes/kubeconfig.yaml install mysql-exporter --namespace golb-test -f kubernetes/monitoring/kube-prometheus/mysqld-values.yaml prometheus-community/prometheus-mysql-exporter"
 # ---
 # kubectl --kubeconfig ./kubernetes/kubeconfig.yaml apply --server-side -f ~/Repositories/kubernetes/kube-prometheus/manifests/setup
 # until kubectl --kubeconfig ./kubernetes/kubeconfig.yaml get servicemonitors --all-namespaces ; do date; sleep 1; echo ""; done

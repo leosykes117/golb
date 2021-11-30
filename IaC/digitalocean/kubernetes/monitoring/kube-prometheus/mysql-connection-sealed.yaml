@@ -1,0 +1,15 @@
+apiVersion: bitnami.com/v1alpha1
+kind: SealedSecret
+metadata:
+  creationTimestamp: null
+  name: mysql-connection-string
+  namespace: golb-test
+spec:
+  encryptedData:
+    DATA_SOURCE_NAME: AgBeSQkEVXVWAjuTvLBGuhzsaQ/83gJKH5ieu8dYtFs9xKxWZmfw2UAU7+LY3fnIiU85RS0Qk+SBAn+nVOB0LV8WBP89/YPaAeLvYrxuYiYhwRtzlFveDdrhOqvXXJLqTQAuFbtCGtXftnMxBsX/8lDM2ifmMwl5edL900/YosF6fjuMYIOVa7QYHTBhIHtA9a1+yYYqm58g/0MIhquLQl3kEhJ2v66zDX3ySOblef+YCssOeLsuvE2LkBmqq1imGsAFlSeTZ8+xK3M3HmiLaSayXzUJ2dp5v2689oceAJ8eHMmCC6H3b6MGMsyROyBPlkKNPHprNm6Wl50z3IGg7CNfbcjlU1lnEiQjxoXxx52CfQgH/ITD3UgYih0W6ZyYuWWmMvlm/6oYzn0160DzWgIY+pib5efrAEMlJ8JcFtUoY1pzbNq8g9YRY9N5z1750JmDZcMLmCALRsk798Z3d8sw6JYePciuGSl1mxIqk3/G7GlNfFlymmTUs9bkkWXz4W2tCTJEqM/0H9DQv2ytv2nW0pi2Vd63AXCE2KYXYAaeNP4ePge+Ut0PMPadwbONHh8fsdfebu8lgcaTAM/+zMqbSOuO1btx1UTNHe4TfUa+0T2rdV+JRHvJ4TOhHQ2iJT6vljF8wKv1pa1NCVj96772fGKt+gI2cE+FD9zGvyN5qK2l226L96TQr4RM48oEJLB2OtnS7lzkU5Kr8oiyrvFoG3W3zzLk5jYZih4iOmw65YdVWg+bDbA0m5rp
+  template:
+    data: null
+    metadata:
+      creationTimestamp: null
+      name: mysql-connection-string
+      namespace: golb-test
