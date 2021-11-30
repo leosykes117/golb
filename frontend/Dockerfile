@@ -7,10 +7,12 @@ RUN npm install
 # develop stage
 FROM init-stage as develop-stage
 EXPOSE 8080
+ENV NODE_ENV=development
 CMD ["npm", "run", "serve"]
 
 # build stage
 FROM init-stage as build-stage
+ENV NODE_ENV=production
 COPY blog-cms/ ./
 RUN npm run build
 

@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: golbdb
+  namespace: golb-test
+  labels:
+    app: golbdb
+spec:
+  selector:
+    app: golbdb
+  ports:
+  - name: db
+    port: 3306
+    targetPort: 3306

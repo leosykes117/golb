@@ -17,3 +17,13 @@ spec:
             name: blog-ui
             port:
               number: 80
+  - host: api.golb.io
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: golb-api
+            port:
+              number: 3000

@@ -16,6 +16,7 @@ services:
             - backend/gocms/.test.env
         environment:
             FROM_DOCKER: "true"
+            VIRTUAL_HOST: api.golb.io
         networks:
             frontend:
                 aliases:
@@ -50,6 +51,20 @@ services:
                 aliases:
                     - ui
 
+    ingress:
+        image: jwilder/nginx-proxy:alpine
+        container_name: ingress-nginx
+        ports:
+        - "80:80"
+        volumes:
+        - /var/run/docker.sock:/tmp/docker.sock:ro
+        networks:
+            frontend:
+                aliases:
+                    - proxy
+        depends_on:
+            - goapi
+            - blog-ui
 
 networks:
     default:

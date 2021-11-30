@@ -1,0 +1,7 @@
+mysql:
+  existingSecret: "mysql-connection-string"
+
+
+serviceMonitor:
+  additionalLabels:
+    app.kubernetes.io/part-of: kube-prometheus
